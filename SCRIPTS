@@ -18,3 +18,48 @@ EXPANSÃO COLAR NO LINK DO SITE E DAR OK
     
  SPEAK RODAR NO SITE
     https://speakify.cupiditys.lol/
+
+
+import tkinter as tk
+import threading
+import time
+
+janela_refs = []
+
+def criar_janelas_cascata():
+    largura = 300
+    altura = 100
+    espaco = 5
+
+    screen_w = root.winfo_screenwidth()
+    screen_h = root.winfo_screenheight()
+
+    cols = screen_w // (largura + espaco)
+    rows = screen_h // (altura + espaco)
+
+    for i in range(rows):
+        for j in range(cols):
+            x = j * (largura + espaco)
+            y = i * (altura + espaco)
+
+            janela = tk.Toplevel(root)
+            janela.geometry(f"{largura}x{altura}+{x}+{y}")
+            janela.title("Erro")
+            janela.resizable(False, False)
+            janela.attributes("-topmost", True)
+
+            label = tk.Label(janela, text="Erro inesperado no sistema.\nCódigo: 0x80004005", fg="red", font=("Arial", 10))
+            label.pack(expand=True)
+
+            janela_refs.append(janela)
+
+def iniciar():
+    time.sleep(1)  # pequena pausa antes de abrir as janelas
+    criar_janelas_cascata()
+
+root = tk.Tk()
+root.withdraw()  # oculta a janela principal
+
+threading.Thread(target=iniciar).start()
+root.mainloop()
+
